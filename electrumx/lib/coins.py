@@ -368,18 +368,28 @@ class HOdlcoin(Coin):
 class BitcoinCash(BitcoinMixin, Coin):
     NAME = "BitcoinCash"
     SHORTNAME = "BCH"
-    TX_COUNT = 246362688
-    TX_COUNT_HEIGHT = 511484
+    TX_COUNT = 267318795
+    TX_COUNT_HEIGHT = 557037
     TX_PER_BLOCK = 400
     PEERS = [
-        'electroncash.cascharia.com s50002',
         'bch.electrumx.cash s t',
-        'bccarihace4jdcnt.onion t52001 s52002',
-        'abc1.hsmiths.com t60001 s60002',
-        'electrumx-cash.1209k.com s t',
-        'electroncash.dk s t',
-        'electrum.imaginary.cash s t',
+        'sv1.hsmiths.com t60003 s60004',
+        'electrumx-sv.1209k.com s t',
     ]
+
+
+class BitcoinCashABC(BitcoinMixin, Coin):
+    NAME = "BitcoinCashABC"
+    SHORTNAME = "BCH"
+    TX_COUNT = 265479628
+    TX_COUNT_HEIGHT = 556592
+    TX_PER_BLOCK = 400
+    PEERS = [
+        'bch.imaginary.cash s t',
+        'electroncash.dk s t',
+        'wallet.satoshiscoffeehouse.com s t',
+    ]
+    BLOCK_PROCESSOR = block_proc.LTORBlockProcessor
 
 
 class BitcoinSegwit(BitcoinMixin, Coin):
@@ -2350,3 +2360,17 @@ class NIX(Coin):
     TX_PER_BLOCK = 3
     RPC_PORT = 6215
     REORG_LIMIT = 1000
+
+
+class NIXTestnet(NIX):
+    SHORTNAME = "tNIX"
+    NET = "testnet"
+    XPUB_VERBYTES = bytes.fromhex("0488b21e")
+    XPRV_VERBYTES = bytes.fromhex("0488ade4")
+    GENESIS_HASH = ('dd28ad86def767c3cfc34267a950d871'
+                    'fc7462bc57ea4a929fc3596d9b598e41')
+    P2PKH_VERBYTE = bytes.fromhex("01")
+    P2SH_VERBYTE = [bytes.fromhex("03")]
+    WIF_BYTE = bytes.fromhex("80")
+    RPC_PORT = 16215
+    DESERIALIZER = lib_tx.DeserializerSegWit
