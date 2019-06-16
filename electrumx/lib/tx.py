@@ -638,3 +638,25 @@ class DeserializerSmartCash(Deserializer):
         from electrumx.lib.hash import sha256
         start = self.cursor
         return self.read_tx(), sha256(self.binary[start:self.cursor])
+
+class DeserializerNIX(Deserializer):
+    def _read_input(self):
+        tx_input = TxInput(
+            self._read_nbytes(32),   # prev_hash
+            self._read_le_uint32(),  # prev_idx
+            self._read_varbytes(),   # script
+            self._read_le_uint32()   # sequence
+        )
+
+        if tx_input.prev_idx == MINUS_1 and tx_input.prev_hash == ZERO:
+            return tx_input
+
+        if tx_input.script[0] == 0xc4: #sigma opcode
+            return TxInput(
+                ZERO,
+                MINUS_1,
+                tx_input.script,
+                tx_input.sequence
+            )
+
+        return tx_input 

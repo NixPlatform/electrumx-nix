@@ -2354,9 +2354,9 @@ class NIX(Coin):
     WIF_BYTE = bytes.fromhex("80")
     GENESIS_HASH = ('dd28ad86def767c3cfc34267a950d871'
                     'fc7462bc57ea4a929fc3596d9b598e41')
-    DESERIALIZER = lib_tx.DeserializerSegWit
-    TX_COUNT = 114240
-    TX_COUNT_HEIGHT = 87846
+    DESERIALIZER = lib_tx.DeserializerNIX
+    TX_COUNT = 266675
+    TX_COUNT_HEIGHT = 230020
     TX_PER_BLOCK = 3
     RPC_PORT = 6215
     REORG_LIMIT = 1000
@@ -2373,4 +2373,4 @@ class NIXTestnet(NIX):
     P2SH_VERBYTE = [bytes.fromhex("03")]
     WIF_BYTE = bytes.fromhex("80")
     RPC_PORT = 16215
-    DESERIALIZER = lib_tx.DeserializerSegWit
+    DESERIALIZER = lib_tx.DeserializerNIX
