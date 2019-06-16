@@ -102,6 +102,7 @@ class Deserializer(object):
         self.binary = binary
         self.binary_length = len(binary)
         self.cursor = start
+        self.logger = util.class_logger(__name__, self.__class__.__name__)
 
     def read_tx(self):
         '''Return a deserialized transaction.'''
@@ -639,7 +640,7 @@ class DeserializerSmartCash(Deserializer):
         start = self.cursor
         return self.read_tx(), sha256(self.binary[start:self.cursor])
 
-class DeserializerNIX(Deserializer):
+class DeserializerNIX(DeserializerSegWit):
     def _read_input(self):
         tx_input = TxInput(
             self._read_nbytes(32),   # prev_hash
@@ -651,7 +652,8 @@ class DeserializerNIX(Deserializer):
         if tx_input.prev_idx == MINUS_1 and tx_input.prev_hash == ZERO:
             return tx_input
 
-        if tx_input.script[0] == 0xc4: #sigma opcode
+        self.logger.info('tx_input: %s', tx_input)
+        if len(tx_input.script) > 0 and tx_input.script[0] == 0xc4: #sigma opcode
             return TxInput(
                 ZERO,
                 MINUS_1,
